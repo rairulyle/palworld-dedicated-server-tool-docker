@@ -15,7 +15,7 @@ ENV PUID=1000 \
     MAX_RECON_RETRY_COUNT= \
     JOIN_BROADCAST= \
     LEAVE_BROADCAST= \
-    MAX_LOG_FILE_SIZE_MB= \
+    MAX_LOG_FILE_SIZE_MB= 
 
 RUN npm install -g pnpm
 RUN pnpm install
