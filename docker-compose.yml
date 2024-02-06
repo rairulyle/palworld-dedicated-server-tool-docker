@@ -1,0 +1,20 @@
+services:
+  palworld-dedicated-server-tool:
+    image: docker pull ghcr.io/rairulyle/palworld-dedicated-server-tool-docker:latest
+    restart: unless-stopped
+    container_name: palworld-dedicated-server-tool
+    ports:
+      - 2424:3000
+    environment:
+      PUID: 1000
+      PGID: 1000
+      RCON_HOST:
+      RCON_PORT:
+      RCON_PASSWORD:
+      WATCHDOG_INTERVAL:
+      MAX_RECON_RETRY_COUNT:
+      JOIN_BROADCAST:
+      LEAVE_BROADCAST:
+      MAX_LOG_FILE_SIZE_MB:
+    volumes:
+      - ./logs:/logs/

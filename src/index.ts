@@ -31,7 +31,7 @@ const logger = createLogger({
   ),
   transports: [
     new transports.File({
-      filename: "log/watchdog.log",
+      filename: "logs/watchdog.log",
       maxsize: MAX_LOG_FILE_SIZE_MB * 1000000,
     }),
   ],
