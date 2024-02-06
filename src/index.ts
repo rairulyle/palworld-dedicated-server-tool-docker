@@ -17,18 +17,20 @@ const JOIN_BROADCAST = process.env.JOIN_BROADCAST === "true";
 const LEAVE_BROADCAST = process.env.LEAVE_BROADCAST === "true";
 const MAX_LOG_FILE_SIZE_MB = Number(process.env.MAX_LOG_FILE_SIZE_MB) || 10;
 
+const loggerFormat = format.combine(
+  format.timestamp({
+    format: "MM-DD HH:mm:ss.SSS",
+  }),
+  format.printf(
+    (info) =>
+      `${info.timestamp} | ${info.level.padEnd(5)} | ${info.message}` +
+      (info.splat !== undefined ? `${info.splat}` : " ")
+  )
+);
+
 const logger = createLogger({
   level: LOG_LEVEL,
-  format: format.combine(
-    format.timestamp({
-      format: "MM-DD HH:mm:ss.SSS",
-    }),
-    format.printf(
-      (info) =>
-        `${info.timestamp} | ${info.level.padEnd(5)} | ${info.message}` +
-        (info.splat !== undefined ? `${info.splat}` : " ")
-    )
-  ),
+  format: loggerFormat,
   transports: [
     new transports.File({
       filename: "logs/watchdog.log",
@@ -36,6 +38,12 @@ const logger = createLogger({
     }),
   ],
 });
+
+logger.add(
+  new transports.Console({
+    format: loggerFormat,
+  })
+);
 
 // Reconnect in case of connect failure
 let retryCount = 0;
@@ -84,8 +92,6 @@ async function rconExec(command: string) {
 let playerList: Player[] = [];
 
 async function initWatchdog() {
-  logger.info("Entering Watchdog Loop.");
-
   // Get player list
   const playerResponse = await rconExec("ShowPlayers");
   if (!playerResponse) {
@@ -140,14 +146,6 @@ app.get("/", (req: Request, res: Response) => {
 const WATCHDOG_INTERVAL = Number(process.env.WATCHDOG_INTERVAL) || 5;
 
 app.listen(API_PORT, async () => {
-  logger.debug(
-    `RCON Connection: ${JSON.stringify({
-      host: RCON_HOST,
-      port: RCON_PORT,
-      password: RCON_PASSWORD,
-    })}`
-  );
-
   while (!(await rconReconnect())) {
     await new Promise((resolve) => setTimeout(resolve, WATCHDOG_INTERVAL));
   }
