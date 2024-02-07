@@ -1,6 +1,6 @@
 {
   "name": "palworld-dedicated-server-tool-docker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "start": "ts-node src/index.ts",
