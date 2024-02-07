@@ -16,9 +16,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.16
     version: 20.11.16
-  '@types/tail':
-    specifier: ^2.2.3
-    version: 2.2.3
   dotenv:
     specifier: ^16.4.1
     version: 16.4.1
@@ -165,10 +162,6 @@ packages:
       '@types/http-errors': 2.0.4
       '@types/mime': 3.0.4
       '@types/node': 20.11.16
-    dev: true
-
-  /@types/tail@2.2.3:
-    resolution: {integrity: sha512-Hnf352egOlDR4nVTaGX0t/kmTNXHMdovF2C7PVDFtHTHJPFmIspOI1b86vEOxU7SfCq/dADS7ptbqgG/WGGxnA==}
     dev: true
 
   /@types/triple-beam@1.3.5:
